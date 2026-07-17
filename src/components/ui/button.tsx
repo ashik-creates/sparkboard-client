@@ -1,11 +1,13 @@
 "use client";
 
 import { Button as HeroUIButton } from "@heroui/react";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 interface ButtonProps {
   children: ReactNode;
   onClick?: () => void;
+  href?: string;
   type?: "button" | "submit" | "reset";
   variant?: "primary" | "secondary" | "danger";
   disabled?: boolean;
@@ -17,6 +19,7 @@ interface ButtonProps {
 export function Button({
   children,
   onClick,
+  href,
   type = "button",
   variant = "primary",
   disabled = false,
@@ -41,6 +44,18 @@ export function Button({
   if (size === "sm") sizeStyle = "px-4 py-2 text-[10px]";
   else if (size === "md") sizeStyle = "px-6 py-3";
   else if (size === "lg") sizeStyle = "px-8 py-4 text-sm";
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        onClick={onClick}
+        className={`${baseStyle} ${variantStyle} ${sizeStyle} ${className} inline-flex items-center justify-center`}
+      >
+        {children}
+      </Link>
+    );
+  }
 
   return (
     <HeroUIButton

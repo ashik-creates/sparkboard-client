@@ -27,7 +27,8 @@ const LOGGED_OUT_LINKS: NavItem[] = [
 const LOGGED_IN_LINKS: NavItem[] = [
   { label: "Home", href: "/", exact: true },
   { label: "Sparks", href: "/ideas" },
-  { label: "Add Spark", href: "/ideas/new" },
+  { label: "Add Spark", href: "/add-idea" },
+  { label: "Manage Sparks", href: "/manage-ideas" },
   { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
 ];
@@ -128,7 +129,7 @@ export function Navbar() {
 
           {/* ── Left: Logo ──────────────────────────────────────────────── */}
           <Link
-            href={user ? "/ideas" : "/"}
+            href={user ? "/manage-ideas" : "/"}
             aria-label="SparkBoard — go to homepage"
             className="font-heading text-lg font-bold uppercase tracking-tight text-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
           >
@@ -271,14 +272,6 @@ export function Navbar() {
                     {user.email}
                   </span>
                 </div>
-                <span
-                  className={`font-sans text-[9px] uppercase tracking-widest px-2 py-0.5 font-bold ${user.plan === "pro"
-                      ? "bg-accent text-background"
-                      : "bg-border text-secondary"
-                    }`}
-                >
-                  {user.plan}
-                </span>
               </div>
 
 

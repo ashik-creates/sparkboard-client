@@ -2,7 +2,7 @@
 
 const FOOTER_LINKS = {
   Product: [
-    { label: "Explore Sparks", href: "/explore" },
+    { label: "Explore Sparks", href: "/ideas" },
     { label: "Features", href: "/#features" },
     { label: "How It Works", href: "/#how-it-works" },
     { label: "Pricing", href: "/#pricing" },
@@ -43,8 +43,8 @@ export function Footer() {
           </p>
           {/* Live indicator */}
           <div className="flex items-center gap-2 mt-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-dot" />
-            <span className="font-sans text-[10px] uppercase tracking-widest text-secondary">
+            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse-dot" />
+            <span className="font-sans text-[10px] uppercase tracking-widest text-muted">
               All systems operational
             </span>
           </div>
@@ -79,7 +79,7 @@ export function Footer() {
             © {year} SparkBoard Inc. All rights reserved.
           </span>
           <span className="font-sans text-[10px] text-secondary/60 uppercase tracking-wider">
-            Powered by Gemini AI
+            Powered by Ashikur Rahman
           </span>
         </div>
       </div>
