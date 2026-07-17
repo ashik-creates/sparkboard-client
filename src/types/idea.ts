@@ -1,64 +1,48 @@
-export interface LeanCanvas {
-  problem: string[];
-  solution: string[];
-  keyMetrics: string[];
-  valueProposition: string[];
-  unfairAdvantage: string[];
-  channels: string[];
-  customerSegments: string[];
-  costStructure: string[];
-  revenueStreams: string[];
-}
+export interface Idea {
+  _id?: string;
 
-export interface SwotAnalysis {
-  strengths: string[];
-  weaknesses: string[];
-  opportunities: string[];
-  threats: string[];
-}
+  title: string;
 
-export interface Competitor {
-  name: string;
-  url?: string;
   description: string;
-  differentiation: string;
-}
 
-export interface FeasibilityScores {
-  technical: number;
-  marketSize: number;
-  financialViability: number;
-  overallScore: number;
+  image?: string;
+
+  category: string;
+
+  status: "Draft" | "Validated";
+
+  isPublic: boolean;
+
+  createdAt: string;
 }
 
 export interface ValidationReport {
+  _id?: string;
+
   ideaId: string;
-  feasibility: FeasibilityScores;
-  swot: SwotAnalysis;
-  competitors: Competitor[];
-  summaryReport: string;
+
+  feasibilityScore: number;
+
+  swot: {
+    strengths: string[];
+    weaknesses: string[];
+    opportunities: string[];
+    threats: string[];
+  };
+
+  summary: string;
+
   generatedAt: string;
 }
 
 export interface ChatMessage {
-  id: string;
-  role: "user" | "model";
-  content: string;
-  timestamp: string;
-}
+  _id?: string;
 
-export interface Idea {
-  id: string;
-  title: string;
-  oneLiner: string;
-  description: string;
-  industry: string;
-  tags: string[];
-  status: "draft" | "improving" | "validated" | "archived";
-  leanCanvas?: LeanCanvas;
-  isPublic: boolean;
+  ideaId: string;
+
+  role: "user" | "assistant";
+
+  message: string;
+
   createdAt: string;
-  updatedAt: string;
-  validationReport?: ValidationReport;
-  chatHistory?: ChatMessage[];
 }
