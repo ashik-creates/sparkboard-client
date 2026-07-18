@@ -1,6 +1,3 @@
-
-import { Navbar } from "@/components/shared/navbar";
-import { Footer } from "@/components/shared/footer";
 import { Button } from "@/components/ui/button";
 
 // ─── Static data ──────────────────────────────────────────────────────────────
@@ -135,7 +132,6 @@ function TeamCard({ member }: { member: TeamMember }) {
 export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Navbar />
 
       {/* ── Page Hero ────────────────────────────────────────────────────── */}
       <section className="border-b border-border bg-card-bg">
@@ -245,7 +241,7 @@ export default function AboutPage() {
 
       </main>
 
-      <Footer />
+      
     </div>
   );
 }

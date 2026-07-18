@@ -35,9 +35,8 @@ export default function IdeaDetailsPage({ params }: PageProps) {
   useEffect(() => {
     const fetchIdea = async () => {
       try {
-
-
         const data = await getIdea(id);
+
         setIdea(data);
       } catch (error) {
         console.error(error);
@@ -58,8 +57,11 @@ export default function IdeaDetailsPage({ params }: PageProps) {
         <main className="mx-auto max-w-5xl px-6 py-20">
           <div className="animate-pulse space-y-6">
             <div className="h-[420px] w-full bg-surface" />
-            <div className="h-8 w-2/3 bg-surface" />
+
+            <div className="h-10 w-2/3 bg-surface" />
+
             <div className="h-5 w-full bg-surface" />
+
             <div className="h-5 w-5/6 bg-surface" />
           </div>
         </main>
@@ -74,7 +76,7 @@ export default function IdeaDetailsPage({ params }: PageProps) {
       <>
         <Navbar />
 
-        <main className="mx-auto flex min-h-[60vh] max-w-5xl items-center justify-center px-6">
+        <main className="flex min-h-[60vh] items-center justify-center px-6">
           <div className="space-y-6 text-center">
             <h2 className="font-heading text-3xl font-bold uppercase text-primary">
               Idea Not Found
@@ -95,9 +97,10 @@ export default function IdeaDetailsPage({ params }: PageProps) {
 
   return (
     <>
-      <Navbar />
 
-      <main className="mx-auto max-w-5xl px-6 py-20">
+      <main className="mx-auto max-w-6xl px-6 py-20">
+        {/* Back */}
+
         <Link
           href="/ideas"
           className="mb-8 inline-block text-sm text-accent hover:underline"
@@ -105,7 +108,11 @@ export default function IdeaDetailsPage({ params }: PageProps) {
           ← Back to Ideas
         </Link>
 
+        {/* Hero Card */}
+
         <div className="overflow-hidden border border-border bg-surface">
+          {/* Image */}
+
           <div className="relative h-[420px] w-full">
             <Image
               src={idea.image}
@@ -113,66 +120,87 @@ export default function IdeaDetailsPage({ params }: PageProps) {
               fill
               priority
               className="object-cover"
-              sizes="(max-width:768px) 100vw, 1024px"
+              sizes="(max-width:768px) 100vw, 1200px"
             />
           </div>
 
-          <div className="space-y-8 p-8">
-            <span className="inline-block border border-border px-3 py-1 text-xs uppercase tracking-widest">
+          {/* Header Content */}
+
+          <div className="space-y-6 p-8">
+            <span className="inline-block border border-border px-3 py-1 text-xs uppercase tracking-widest text-accent">
               {idea.category}
             </span>
 
-            <h1 className="font-heading text-4xl font-bold uppercase text-primary">
+            <h1 className="font-heading text-4xl font-bold uppercase tracking-tight text-primary md:text-5xl">
               {idea.title}
             </h1>
 
-            <p className="text-lg text-secondary">
+            <p className="text-lg leading-relaxed text-secondary">
               {idea.shortDescription}
             </p>
+          </div>
+        </div>
 
-            <div className="space-y-3">
-              <h2 className="font-heading text-xl uppercase text-primary">
-                Description
-              </h2>
+        {/* Description / Overview */}
 
-              <p className="leading-8 text-secondary">
-                {idea.description}
+        <section className="mt-12 space-y-4">
+          <h2 className="font-heading text-2xl font-bold uppercase text-primary">
+            Description / Overview
+          </h2>
+
+          <p className="leading-8 text-secondary">{idea.description}</p>
+        </section>
+
+        {/* Key Information */}
+
+        <section className="mt-12 space-y-6">
+          <h2 className="font-heading text-2xl font-bold uppercase text-primary">
+            Key Information / Specifications
+          </h2>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            <div className="border border-border p-5">
+              <p className="text-xs uppercase tracking-widest text-muted">
+                Category
               </p>
+
+              <p className="mt-2 text-primary">{idea.category}</p>
             </div>
 
-            <div className="space-y-3">
-              <h2 className="font-heading text-xl uppercase text-primary">
-                Tags
-              </h2>
-
-              <div className="flex flex-wrap gap-3">
-                {idea.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="border border-border px-3 py-2 text-xs uppercase tracking-wider"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <h2 className="font-heading text-xl uppercase text-primary">
+            <div className="border border-border p-5">
+              <p className="text-xs uppercase tracking-widest text-muted">
                 Created
-              </h2>
+              </p>
 
-              <p className="text-secondary">{idea.createdAt}</p>
-            </div>
-
-            <div className="border-t border-border pt-6">
-              <Button href="/ideas">Back to Explore</Button>
+              <p className="mt-2 text-primary">{idea.createdAt}</p>
             </div>
           </div>
+
+          <div>
+            <p className="mb-3 text-xs uppercase tracking-widest text-muted">
+              Tags
+            </p>
+
+            <div className="flex flex-wrap gap-3">
+              {idea.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="border border-border px-3 py-2 text-xs uppercase tracking-wider text-primary"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Footer Action */}
+
+        <div className="mt-12 border-t border-border pt-6">
+          <Button href="/ideas">Back to Explore</Button>
         </div>
       </main>
 
-      <Footer />
     </>
   );
 }

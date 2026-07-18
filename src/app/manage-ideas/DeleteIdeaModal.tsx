@@ -24,8 +24,8 @@ const DeleteIdeaModal = ({ ideaId }: DeleteIdeaModalProps) => {
 
       setLoading(false);
 
-      if (res.deletedCount > 0) {
-        toast.success("Idea deleted successfully");
+      if (res.success) {
+        toast.success(res.message || "Idea deleted successfully");
         setOpen(false);
         router.refresh();
       } else {

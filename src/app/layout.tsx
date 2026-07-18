@@ -4,6 +4,9 @@ import "./globals.css";
 import { QueryProvider } from "@/providers/query-provider";
 import { UIProvider } from "@/providers/ui-provider";
 import { AuthProvider } from "@/providers/auth-context";
+import { Toaster } from "react-hot-toast";
+import { Navbar } from "@/components/shared/navbar";
+import { Footer } from "@/components/shared/footer";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -34,7 +37,10 @@ export default function RootLayout({
         <QueryProvider>
           <AuthProvider>
             <UIProvider>
+              <Navbar />
               {children}
+              <Footer />
+              <Toaster />
             </UIProvider>
           </AuthProvider>
         </QueryProvider>

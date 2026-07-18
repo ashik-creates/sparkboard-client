@@ -30,6 +30,20 @@ export const getIdeas = async (query: IdeaQuery) => {
 
 
 
+export const getFeaturedIdeas = async () => {
+  const res = await fetch(`${API_URL}/api/featured-ideas`, {
+    cache: "no-store",
+  });
+
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch featured ideas");
+  }
+
+
+  return res.json();
+};
+
 export async function getIdea(id: string) {
   const res = await fetch(`${API_URL}/api/ideas/${id}`);
 

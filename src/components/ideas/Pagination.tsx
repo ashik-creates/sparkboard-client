@@ -31,8 +31,8 @@ const Pagination = ({
       <Button
         variant="outline"
         isDisabled={currentPage === 1}
-        onClick={() => changePage(currentPage - 1)}
-        className="h-11 rounded-xl border-gray-300 bg-white px-5 text-[#2C2C2C] transition hover:border-[#FF5A3C] hover:text-[#FF5A3C]"
+        onPress={() => changePage(currentPage - 1)}
+        className="h-11 rounded-none border border-border bg-surface px-5 text-secondary transition hover:border-accent hover:text-accent disabled:opacity-40"
       >
         Previous
       </Button>
@@ -40,12 +40,11 @@ const Pagination = ({
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
         <Button
           key={page}
-          variant={currentPage === page ? "primary" : "outline"}
-          onClick={() => changePage(page)}
+          onPress={() => changePage(page)}
           className={
             currentPage === page
-              ? "h-11 w-11 min-w-11 rounded-xl bg-[#FF5A3C] font-semibold text-white hover:bg-[#ef4b2d]"
-              : "h-11 w-11 min-w-11 rounded-xl border-gray-300 bg-white font-semibold text-[#2C2C2C] transition hover:border-[#FF5A3C] hover:text-[#FF5A3C]"
+              ? "h-11 w-11 min-w-11 rounded-none border border-accent bg-accent font-semibold text-background"
+              : "h-11 w-11 min-w-11 rounded-none border border-border bg-surface font-semibold text-primary transition hover:border-accent hover:text-accent"
           }
         >
           {page}
@@ -55,8 +54,8 @@ const Pagination = ({
       <Button
         variant="outline"
         isDisabled={currentPage === totalPages}
-        onClick={() => changePage(currentPage + 1)}
-        className="h-11 rounded-xl border-gray-300 bg-white px-5 text-[#2C2C2C] transition hover:border-[#FF5A3C] hover:text-[#FF5A3C]"
+        onPress={() => changePage(currentPage + 1)}
+        className="h-11 rounded-none border border-border bg-surface px-5 text-secondary transition hover:border-accent hover:text-accent disabled:opacity-40"
       >
         Next
       </Button>

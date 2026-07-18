@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
-
 import { Input, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
+import { createIdea } from "@/lib/action/ideas";
 
 const categories = [
   "SaaS",
@@ -17,6 +21,10 @@ const categories = [
 ];
 
 export default function AddIdeaForm() {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     shortDescription: "",
@@ -29,7 +37,7 @@ export default function AddIdeaForm() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -51,23 +59,40 @@ export default function AddIdeaForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const idea = {
-      title: formData.title,
-      shortDescription: formData.shortDescription,
-      description: formData.description,
-      image: formData.image,
-      category: formData.category,
-      tags: formData.tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean),
-      createdAt: new Date().toISOString().split("T")[0],
-    };
+    setLoading(true);
 
-    console.log(idea);
+    try {
+      const idea = {
+        title: formData.title,
+        shortDescription: formData.shortDescription,
+        description: formData.description,
+        image: formData.image,
+        category: formData.category,
+        tags: formData.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean),
+        createdAt: new Date().toISOString().split("T")[0],
+      };
 
-    // TODO:
-    // await createIdea(idea);
+      const res = await createIdea(idea);
+
+      if (res.insertedId || res.success) {
+        toast.success("Idea published successfully!");
+
+        resetForm();
+
+        router.push("/manage-ideas");
+      } else {
+        toast.error(res.message || "Failed to publish idea.");
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -137,10 +162,7 @@ export default function AddIdeaForm() {
               className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-primary outline-none transition focus:border-accent"
             >
               {categories.map((category) => (
-                <option
-                  key={category}
-                  value={category}
-                >
+                <option key={category} value={category}>
                   {category}
                 </option>
               ))}
@@ -167,11 +189,8 @@ export default function AddIdeaForm() {
           Reset
         </Button>
 
-        <Button
-          type="submit"
-          className="w-full sm:w-auto"
-        >
-          Publish Idea
+        <Button type="submit" className="w-full sm:w-auto" disabled={loading}>
+          {loading ? "Publishing..." : "Publish Idea"}
         </Button>
       </div>
     </form>

@@ -222,7 +222,6 @@ export default function BlogList() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <Navbar />
 
       {/* ── Page Header ── */}
       <div className="border-b border-border bg-card-bg px-6 md:px-12 lg:px-16 py-12">
@@ -294,7 +293,6 @@ export default function BlogList() {
 
       </main>
 
-      <Footer />
     </div>
   );
 }
