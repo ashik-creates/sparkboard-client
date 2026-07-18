@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { Input, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -15,7 +16,7 @@ const categories = [
   "Other",
 ];
 
-export function AddIdeaForm() {
+export default function AddIdeaForm() {
   const [formData, setFormData] = useState({
     title: "",
     shortDescription: "",
@@ -23,7 +24,6 @@ export function AddIdeaForm() {
     image: "",
     category: "SaaS",
     tags: "",
-    isPublic: false,
   });
 
   const handleChange = (
@@ -37,150 +37,141 @@ export function AddIdeaForm() {
     }));
   };
 
-  const handleVisibility = (value: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      isPublic: value,
-    }));
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      shortDescription: "",
+      description: "",
+      image: "",
+      category: "SaaS",
+      tags: "",
+    });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log({
-      ...formData,
+    const idea = {
+      title: formData.title,
+      shortDescription: formData.shortDescription,
+      description: formData.description,
+      image: formData.image,
+      category: formData.category,
       tags: formData.tags
         .split(",")
         .map((tag) => tag.trim())
         .filter(Boolean),
-    });
+      createdAt: new Date().toISOString().split("T")[0],
+    };
+
+    console.log(idea);
+
+    // TODO:
+    // await createIdea(idea);
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-8 border border-border bg-surface p-8"
+      className="rounded-xl border border-border bg-surface p-6 shadow-sm sm:p-8"
     >
-      <Input
-        label="Title"
-        name="title"
-        placeholder="AI Resume Builder"
-        value={formData.title}
-        onChange={handleChange}
-        required
-      />
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold text-primary">
+          Startup Information
+        </h2>
 
-      <Input
-        label="Short Description"
-        name="shortDescription"
-        placeholder="Describe your startup in one sentence"
-        value={formData.shortDescription}
-        onChange={handleChange}
-        required
-      />
-
-      <Textarea
-        label="Full Description"
-        name="description"
-        rows={6}
-        placeholder="Explain the problem, your solution and target users..."
-        value={formData.description}
-        onChange={handleChange}
-        required
-      />
-
-      <Input
-        label="Image URL (Optional)"
-        name="image"
-        placeholder="https://example.com/image.jpg"
-        value={formData.image}
-        onChange={handleChange}
-      />
-
-      <div className="flex flex-col gap-2">
-        <label className="font-sans text-[10px] font-medium uppercase tracking-wider text-secondary">
-          Category
-        </label>
-
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          className="w-full border border-border bg-surface px-4 py-3 text-sm text-primary outline-none transition-colors focus:border-accent"
-        >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+        <p className="mt-1 text-sm text-secondary">
+          Fill in the details below to publish your startup idea.
+        </p>
       </div>
 
-      <Input
-        label="Tags (Optional)"
-        name="tags"
-        placeholder="AI, Startup, Productivity"
-        value={formData.tags}
-        onChange={handleChange}
-      />
+      <div className="space-y-6">
+        <Input
+          label="Title"
+          name="title"
+          placeholder="AI Resume Builder"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
 
-      <div className="flex flex-col gap-3">
-        <label className="font-sans text-[10px] font-medium uppercase tracking-wider text-secondary">
-          Visibility
-        </label>
+        <Input
+          label="Short Description"
+          name="shortDescription"
+          placeholder="Describe your startup idea in one sentence"
+          value={formData.shortDescription}
+          onChange={handleChange}
+          required
+        />
 
-        <div className="grid grid-cols-2 gap-4">
-          <button
-            type="button"
-            onClick={() => handleVisibility(false)}
-            className={`border px-4 py-3 text-xs uppercase tracking-widest transition-colors ${
-              !formData.isPublic
-                ? "border-accent bg-accent text-background"
-                : "border-border hover:border-accent"
-            }`}
-          >
-            Private
-          </button>
+        <Textarea
+          label="Description"
+          name="description"
+          rows={6}
+          placeholder="Explain your startup idea in detail..."
+          value={formData.description}
+          onChange={handleChange}
+          required
+        />
 
-          <button
-            type="button"
-            onClick={() => handleVisibility(true)}
-            className={`border px-4 py-3 text-xs uppercase tracking-widest transition-colors ${
-              formData.isPublic
-                ? "border-accent bg-accent text-background"
-                : "border-border hover:border-accent"
-            }`}
-          >
-            Public
-          </button>
+        <Input
+          label="Cover Image URL"
+          name="image"
+          type="url"
+          placeholder="https://images.unsplash.com/..."
+          value={formData.image}
+          onChange={handleChange}
+          required
+        />
+
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-2">
+            <label className="text-xs font-medium uppercase tracking-wider text-secondary">
+              Category
+            </label>
+
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-primary outline-none transition focus:border-accent"
+            >
+              {categories.map((category) => (
+                <option
+                  key={category}
+                  value={category}
+                >
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <Input
+            label="Tags"
+            name="tags"
+            placeholder="ai, startup, productivity"
+            value={formData.tags}
+            onChange={handleChange}
+          />
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+      <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:justify-end">
         <Button
-          type="submit"
-          className="flex-1"
+          type="button"
+          variant="secondary"
+          onClick={resetForm}
+          className="w-full sm:w-auto"
         >
-          Create Spark
+          Reset
         </Button>
 
         <Button
-          type="reset"
-          variant="secondary"
-          className="flex-1"
-          onClick={() =>
-            setFormData({
-              title: "",
-              shortDescription: "",
-              description: "",
-              image: "",
-              category: "SaaS",
-              tags: "",
-              isPublic: false,
-            })
-          }
+          type="submit"
+          className="w-full sm:w-auto"
         >
-          Reset
+          Publish Idea
         </Button>
       </div>
     </form>

@@ -1,29 +1,32 @@
 import { Navbar } from "@/components/shared/navbar";
 import { Footer } from "@/components/shared/footer";
-import { AddIdeaForm } from "@/components/ideas/AddIdeaForm";
+import AddIdeaForm from "@/components/ideas/AddIdeaForm";
 
 export default function AddIdeaPage() {
   return (
     <>
       <Navbar />
 
-      <main className="mx-auto w-full max-w-3xl px-6 py-20">
-        <div className="mb-10 space-y-3">
-          <p className="text-[10px] uppercase tracking-[0.25em] text-accent">
-            New Spark
-          </p>
+      <main className="min-h-[calc(100vh-180px)]">
+        <section className="mx-auto max-w-4xl px-5 py-12 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+              Share Your Idea
+            </span>
 
-          <h1 className="font-heading text-4xl font-bold uppercase text-primary">
-            Create Your Startup Idea
-          </h1>
+            <h1 className="mt-2 text-3xl font-bold text-primary sm:text-4xl">
+              Create a Startup Idea
+            </h1>
 
-          <p className="max-w-xl text-secondary">
-            Describe your startup idea and let SparkBoard help you validate,
-            improve and explore its potential.
-          </p>
-        </div>
+            <p className="mt-3 max-w-2xl text-secondary">
+              Share your startup idea with the community. Add a title,
+              description, category, tags, and a cover image to help others
+              discover your idea.
+            </p>
+          </div>
 
-        <AddIdeaForm />
+          <AddIdeaForm />
+        </section>
       </main>
 
       <Footer />

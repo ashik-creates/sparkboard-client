@@ -1,7 +1,9 @@
 export interface Idea {
-  _id?: string;
+  _id: string;
 
   title: string;
+
+  shortDescription: string;
 
   description: string;
 
@@ -9,9 +11,7 @@ export interface Idea {
 
   category: string;
 
-  status: "Draft" | "Validated";
-
-  isPublic: boolean;
+  tags?: string[];
 
   createdAt: string;
 }
