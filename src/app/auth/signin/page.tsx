@@ -55,11 +55,6 @@ export default function SignInPage() {
     setIsLoading(false);
   };
 
-  const handleGoogleLogin = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-    });
-  };
 
   const handleDemoLogin = async () => {
     setError("");
@@ -91,6 +86,12 @@ export default function SignInPage() {
     }
 
     setIsLoading(false);
+  };
+
+  const googleSignIn = async() => {
+    await authClient.signIn.social({
+    provider: "google",
+  });
   };
 
   return (
@@ -169,7 +170,7 @@ export default function SignInPage() {
           <Button
             variant="secondary"
             className="w-full"
-            onClick={handleGoogleLogin}
+            onClick={googleSignIn}
           >
             <div className="flex items-center justify-center gap-3">
               <FcGoogle size={20} />

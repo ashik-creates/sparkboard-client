@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/providers/auth-context";
 import { Button } from "@/components/ui/button";
-
+import toast from "react-hot-toast";
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface NavLinkData {
@@ -108,6 +108,15 @@ export function Navbar() {
     setMobileOpen(false);
   }
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success("Signed out successfully.");
+    } catch {
+      toast.error("Failed to sign out.");
+    }
+  };
+
   const navLinks = user ? LOGGED_IN_LINKS : LOGGED_OUT_LINKS;
 
   // ── Scroll shadow ─────────────────────────────────────────────────────────
@@ -150,7 +159,10 @@ export function Navbar() {
           </Link>
 
           {/* ── Center: Nav links (desktop only) ────────────────────────── */}
-          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-7">
+          <nav
+            aria-label="Main navigation"
+            className="hidden lg:flex items-center gap-7"
+          >
             {navLinks.map((link) => (
               <NavLink key={`${link.href}-${link.label}`} {...link} />
             ))}
@@ -159,7 +171,9 @@ export function Navbar() {
           {/* ── Right: Actions ──────────────────────────────────────────── */}
           <div className="flex items-center justify-end gap-4">
             {/* Loading skeleton */}
-            {loading && <div className="hidden lg:block w-28 h-4 bg-border animate-pulse" />}
+            {loading && (
+              <div className="hidden lg:block w-28 h-4 bg-border animate-pulse" />
+            )}
 
             {/* Authenticated */}
             {!loading && user && (
@@ -174,7 +188,7 @@ export function Navbar() {
 
                 {/* Sign out — subtle text button */}
                 <button
-                  onClick={signOut}
+                  onClick={handleSignOut}
                   className="font-sans text-[11px] uppercase tracking-widest text-secondary hover:text-primary border-b border-transparent hover:border-secondary pb-0.5 transition-all duration-200"
                 >
                   Sign Out
@@ -185,10 +199,18 @@ export function Navbar() {
             {/* Unauthenticated */}
             {!loading && !user && (
               <div className="hidden lg:flex items-center gap-3">
-                <Button variant="secondary" size="sm" onClick={() => router.push("/auth/signin")}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => router.push("/auth/signin")}
+                >
                   Login
                 </Button>
-                <Button variant="primary" size="sm" onClick={() => router.push("/auth/signup")}>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => router.push("/auth/signup")}
+                >
                   Get Started
                 </Button>
               </div>
@@ -196,7 +218,9 @@ export function Navbar() {
 
             {/* Mobile hamburger */}
             <button
-              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-label={
+                mobileOpen ? "Close navigation menu" : "Open navigation menu"
+              }
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
               onClick={() => setMobileOpen((v) => !v)}
@@ -265,7 +289,9 @@ export function Navbar() {
                   <span className="font-heading text-sm font-bold uppercase text-primary tracking-tight">
                     {user.name}
                   </span>
-                  <span className="font-sans text-[10px] text-secondary">{user.email}</span>
+                  <span className="font-sans text-[10px] text-secondary">
+                    {user.email}
+                  </span>
                 </div>
               </div>
 
@@ -275,7 +301,7 @@ export function Navbar() {
                 className="w-fit mt-2"
                 onClick={() => {
                   closeMobile();
-                  signOut();
+                  handleSignOut();
                 }}
               >
                 Sign Out
