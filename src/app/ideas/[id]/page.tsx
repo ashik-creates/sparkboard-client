@@ -4,10 +4,24 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Navbar } from "@/components/shared/navbar";
-import { Footer } from "@/components/shared/footer";
 import { Button } from "@/components/ui/button";
+
 import { getIdea } from "@/lib/api/ideas";
+
+import ValidateIdeaButton from "@/components/ideas/ValidateIdeaButton";
+import IdeaValidationReport from "@/components/ideas/IdeaValidationReport";
+
+interface ValidationReport {
+  overallScore: number;
+  marketPotential: string;
+  technicalDifficulty: string;
+  competitionLevel: string;
+  strengths: string[];
+  weaknesses: string[];
+  risks: string[];
+  recommendations: string[];
+  verdict: string;
+}
 
 interface Idea {
   _id: string;
@@ -18,6 +32,7 @@ interface Idea {
   category: string;
   tags: string[];
   createdAt: string;
+  validationReport?: ValidationReport;
 }
 
 interface PageProps {
@@ -36,7 +51,6 @@ export default function IdeaDetailsPage({ params }: PageProps) {
     const fetchIdea = async () => {
       try {
         const data = await getIdea(id);
-
         setIdea(data);
       } catch (error) {
         console.error(error);
@@ -52,21 +66,17 @@ export default function IdeaDetailsPage({ params }: PageProps) {
   if (isLoading) {
     return (
       <>
-        <Navbar />
-
-        <main className="mx-auto max-w-5xl px-6 py-20">
+        <main className="mx-auto max-w-6xl px-6 py-20">
           <div className="animate-pulse space-y-6">
-            <div className="h-[420px] w-full bg-surface" />
+            <div className="h-[420px] bg-surface" />
 
             <div className="h-10 w-2/3 bg-surface" />
 
             <div className="h-5 w-full bg-surface" />
 
-            <div className="h-5 w-5/6 bg-surface" />
+            <div className="h-5 w-4/5 bg-surface" />
           </div>
         </main>
-
-        <Footer />
       </>
     );
   }
@@ -74,10 +84,8 @@ export default function IdeaDetailsPage({ params }: PageProps) {
   if (!idea) {
     return (
       <>
-        <Navbar />
-
         <main className="flex min-h-[60vh] items-center justify-center px-6">
-          <div className="space-y-6 text-center">
+          <div className="space-y-5 text-center">
             <h2 className="font-heading text-3xl font-bold uppercase text-primary">
               Idea Not Found
             </h2>
@@ -86,21 +94,16 @@ export default function IdeaDetailsPage({ params }: PageProps) {
               The startup idea you are looking for does not exist.
             </p>
 
-            <Button href="/ideas">Back to Explore</Button>
+            <Button href="/ideas">Back to Ideas</Button>
           </div>
         </main>
-
-        <Footer />
       </>
     );
   }
 
   return (
     <>
-
       <main className="mx-auto max-w-6xl px-6 py-20">
-        {/* Back */}
-
         <Link
           href="/ideas"
           className="mb-8 inline-block text-sm text-accent hover:underline"
@@ -108,11 +111,9 @@ export default function IdeaDetailsPage({ params }: PageProps) {
           ← Back to Ideas
         </Link>
 
-        {/* Hero Card */}
+        {/* Hero */}
 
         <div className="overflow-hidden border border-border bg-surface">
-          {/* Image */}
-
           <div className="relative h-[420px] w-full">
             <Image
               src={idea.image}
@@ -120,11 +121,8 @@ export default function IdeaDetailsPage({ params }: PageProps) {
               fill
               priority
               className="object-cover"
-              sizes="(max-width:768px) 100vw, 1200px"
             />
           </div>
-
-          {/* Header Content */}
 
           <div className="space-y-6 p-8">
             <span className="inline-block border border-border px-3 py-1 text-xs uppercase tracking-widest text-accent">
@@ -141,21 +139,21 @@ export default function IdeaDetailsPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Description / Overview */}
+        {/* Description */}
 
-        <section className="mt-12 space-y-4">
+        <section className="mt-14 space-y-4">
           <h2 className="font-heading text-2xl font-bold uppercase text-primary">
-            Description / Overview
+            Description
           </h2>
 
           <p className="leading-8 text-secondary">{idea.description}</p>
         </section>
 
-        {/* Key Information */}
+        {/* Information */}
 
-        <section className="mt-12 space-y-6">
+        <section className="mt-14 space-y-6">
           <h2 className="font-heading text-2xl font-bold uppercase text-primary">
-            Key Information / Specifications
+            Key Information
           </h2>
 
           <div className="grid gap-5 md:grid-cols-2">
@@ -194,13 +192,64 @@ export default function IdeaDetailsPage({ params }: PageProps) {
           </div>
         </section>
 
-        {/* Footer Action */}
+        {/* AI Validation */}
 
-        <div className="mt-12 border-t border-border pt-6">
-          <Button href="/ideas">Back to Explore</Button>
+        {/* AI Validation */}
+
+        <section className="mt-16">
+          <div className="mb-8">
+            <p className="text-xs uppercase tracking-[0.25em] text-accent">
+              Artificial Intelligence
+            </p>
+
+            <h2 className="mt-2 font-heading text-3xl font-bold uppercase text-primary">
+              AI Startup Validation
+            </h2>
+
+            <p className="mt-2 max-w-2xl text-secondary">
+              Let AI evaluate this startup idea for market potential,
+              competition, technical difficulty, risks, and provide practical
+              recommendations.
+            </p>
+          </div>
+
+          {idea.validationReport ? (
+            <>
+              <div className="mb-6 flex justify-end">
+                <ValidateIdeaButton ideaId={idea._id} reanalyze />
+              </div>
+
+              <IdeaValidationReport report={idea.validationReport} />
+            </>
+          ) : (
+            <div className="rounded-lg border border-dashed border-border bg-surface p-10 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent/10">
+                🤖
+              </div>
+
+              <h3 className="mt-5 text-2xl font-semibold text-primary">
+                No AI Analysis Yet
+              </h3>
+
+              <p className="mx-auto mt-3 max-w-xl leading-7 text-secondary">
+                Validate this startup idea with AI to receive an intelligent
+                business analysis, including strengths, weaknesses, competition,
+                risks, and recommendations.
+              </p>
+
+              <div className="mt-8">
+                <ValidateIdeaButton ideaId={idea._id} />
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* Footer */}
+
+        <div className="mt-16 border-t border-border pt-8">
+          <Button href="/ideas">Back to Ideas</Button>
         </div>
       </main>
-
     </>
   );
 }

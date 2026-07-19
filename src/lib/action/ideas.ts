@@ -29,3 +29,11 @@ export const deleteIdea = async (id: string) => {
 
   return res.json();
 };
+
+export const validateIdea = async (id: string) => {
+  const res = await fetch(`${API_URL}/api/ideas/${id}/validate`, {
+    method: "POST",
+  });
+
+  return res.json();
+};

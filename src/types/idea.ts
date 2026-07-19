@@ -1,48 +1,24 @@
+interface ValidationReport {
+  overallScore: number;
+  marketPotential: string;
+  technicalDifficulty: string;
+ competitionLevel: string;
+  strengths: string[];
+  weaknesses: string[];
+  risks: string[];
+  recommendations: string[];
+  verdict: string;
+}
+
 export interface Idea {
   _id: string;
-
   title: string;
-
   shortDescription: string;
-
   description: string;
-
-  image?: string;
-
+  image: string;
   category: string;
-
-  tags?: string[];
-
+  tags: string[];
   createdAt: string;
+  validationReport?: ValidationReport;
 }
 
-export interface ValidationReport {
-  _id?: string;
-
-  ideaId: string;
-
-  feasibilityScore: number;
-
-  swot: {
-    strengths: string[];
-    weaknesses: string[];
-    opportunities: string[];
-    threats: string[];
-  };
-
-  summary: string;
-
-  generatedAt: string;
-}
-
-export interface ChatMessage {
-  _id?: string;
-
-  ideaId: string;
-
-  role: "user" | "assistant";
-
-  message: string;
-
-  createdAt: string;
-}
