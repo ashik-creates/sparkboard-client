@@ -37,3 +37,12 @@ export const validateIdea = async (id: string) => {
 
   return res.json();
 };
+
+export const improveIdea = async (id: string) => {
+
+  const res = await fetch(`${API_URL}/api/ideas/${id}/improve`, {
+    method: "POST",
+  });
+
+  return res.json();
+};

@@ -10,6 +10,17 @@ interface ValidationReport {
   verdict: string;
 }
 
+interface ImprovementReport {
+  improvedTitle: string;
+  improvedShortDescription: string;
+  improvedDescription: string;
+  newFeatures: string[];
+  targetCustomers: string[];
+  businessModel: string;
+  goToMarket: string[];
+  marketingIdeas: string[];
+}
+
 export interface Idea {
   _id: string;
   title: string;
@@ -19,6 +30,8 @@ export interface Idea {
   category: string;
   tags: string[];
   createdAt: string;
+
   validationReport?: ValidationReport;
+  improvementReport?: ImprovementReport;
 }
 

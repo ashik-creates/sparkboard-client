@@ -10,30 +10,10 @@ import { getIdea } from "@/lib/api/ideas";
 
 import ValidateIdeaButton from "@/components/ideas/ValidateIdeaButton";
 import IdeaValidationReport from "@/components/ideas/IdeaValidationReport";
+import ImproveIdeaButton from "@/components/ideas/ImproveIdeaButton";
+import IdeaImprovementReport from "@/components/ideas/IdeaImprovementReport";
+import { Idea } from "@/types/idea";
 
-interface ValidationReport {
-  overallScore: number;
-  marketPotential: string;
-  technicalDifficulty: string;
-  competitionLevel: string;
-  strengths: string[];
-  weaknesses: string[];
-  risks: string[];
-  recommendations: string[];
-  verdict: string;
-}
-
-interface Idea {
-  _id: string;
-  title: string;
-  shortDescription: string;
-  description: string;
-  image: string;
-  category: string;
-  tags: string[];
-  createdAt: string;
-  validationReport?: ValidationReport;
-}
 
 interface PageProps {
   params: Promise<{
@@ -239,6 +219,47 @@ export default function IdeaDetailsPage({ params }: PageProps) {
 
               <div className="mt-8">
                 <ValidateIdeaButton ideaId={idea._id} />
+              </div>
+            </div>
+          )}
+        </section>
+
+        <section className="mt-20">
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.25em] text-accent">
+                AI Co-Founder
+              </p>
+
+              <h2 className="mt-2 font-heading text-3xl font-bold uppercase text-primary">
+                AI Startup Improvement
+              </h2>
+
+              <p className="mt-2 text-secondary">
+                Let AI redesign and strengthen your startup idea with better
+                positioning, features, business model and marketing strategy.
+              </p>
+            </div>
+          </div>
+
+          {idea.improvementReport ? (
+            <>
+              <div className="mb-6 flex justify-end">
+                <ImproveIdeaButton ideaId={idea._id} reanalyze />
+              </div>
+
+              <IdeaImprovementReport report={idea.improvementReport} />
+            </>
+          ) : (
+            <div className="rounded-lg border border-dashed border-border p-10 text-center">
+              <h3 className="text-2xl font-semibold">No AI Improvements Yet</h3>
+
+              <p className="mt-3 text-secondary">
+                Generate AI suggestions to improve your startup idea.
+              </p>
+
+              <div className="mt-6">
+                <ImproveIdeaButton ideaId={idea._id} />
               </div>
             </div>
           )}
