@@ -8,11 +8,14 @@ import { FAQ } from "@/components/sections/faq";
 import { CTA } from "@/components/sections/cta";
 import FeaturedSparks from "@/components/sections/featured-sparks";
 import Marquee from "@/components/sections/Marquee";
+import { getStatistics } from "@/lib/api/ideas";
+import StatisticsSection from "@/components/sections/StatisticsSection";
 
 
 
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getStatistics();
   return (
     <div className="flex flex-col min-h-screen bg-background">
 
@@ -45,6 +48,10 @@ export default function Home() {
 
       {/* Bottom Conversion Section */}
       <CTA />
+
+      {/* Statistics chart */}
+      
+      <StatisticsSection stats={stats} />
 
     </div>
   );

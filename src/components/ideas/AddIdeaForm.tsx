@@ -96,21 +96,25 @@ export default function AddIdeaForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-xl border border-border bg-surface p-6 shadow-sm sm:p-8"
-    >
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-primary">
+    <form onSubmit={handleSubmit} className="border border-border bg-surface">
+      {/* Header */}
+      <div className="border-b border-border px-8 py-8">
+        <p className="text-[10px] uppercase tracking-[0.3em] text-accent">
+          Submit Startup
+        </p>
+
+        <h2 className="mt-3 font-heading text-3xl font-bold uppercase text-primary">
           Startup Information
         </h2>
 
-        <p className="mt-1 text-sm text-secondary">
-          Fill in the details below to publish your startup idea.
+        <p className="mt-3 max-w-2xl leading-7 text-secondary">
+          Share your startup idea with the community. AI can later validate and
+          improve your submission.
         </p>
       </div>
 
-      <div className="space-y-6">
+      {/* Body */}
+      <div className="space-y-8 p-8">
         <Input
           label="Title"
           name="title"
@@ -123,7 +127,7 @@ export default function AddIdeaForm() {
         <Input
           label="Short Description"
           name="shortDescription"
-          placeholder="Describe your startup idea in one sentence"
+          placeholder="Describe your startup in one sentence"
           value={formData.shortDescription}
           onChange={handleChange}
           required
@@ -132,8 +136,8 @@ export default function AddIdeaForm() {
         <Textarea
           label="Description"
           name="description"
-          rows={6}
-          placeholder="Explain your startup idea in detail..."
+          rows={7}
+          placeholder="Explain the problem, your solution, target users and business model..."
           value={formData.description}
           onChange={handleChange}
           required
@@ -149,9 +153,9 @@ export default function AddIdeaForm() {
           required
         />
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-2">
-            <label className="text-xs font-medium uppercase tracking-wider text-secondary">
+            <label className="text-[11px] uppercase tracking-[0.25em] text-secondary">
               Category
             </label>
 
@@ -159,7 +163,7 @@ export default function AddIdeaForm() {
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full rounded-md border border-border bg-background px-4 py-3 text-sm text-primary outline-none transition focus:border-accent"
+              className="h-12 w-full border border-border bg-background px-4 text-sm text-primary outline-none transition focus:border-accent"
             >
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -172,14 +176,15 @@ export default function AddIdeaForm() {
           <Input
             label="Tags"
             name="tags"
-            placeholder="ai, startup, productivity"
+            placeholder="ai, productivity, startup"
             value={formData.tags}
             onChange={handleChange}
           />
         </div>
       </div>
 
-      <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:justify-end">
+      {/* Footer */}
+      <div className="flex flex-col gap-3 border-t border-border bg-background px-8 py-6 sm:flex-row sm:justify-end">
         <Button
           type="button"
           variant="secondary"
@@ -189,7 +194,7 @@ export default function AddIdeaForm() {
           Reset
         </Button>
 
-        <Button type="submit" className="w-full sm:w-auto" disabled={loading}>
+        <Button type="submit" disabled={loading} className="w-full sm:w-auto">
           {loading ? "Publishing..." : "Publish Idea"}
         </Button>
       </div>

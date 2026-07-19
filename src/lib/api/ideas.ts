@@ -1,7 +1,4 @@
-import { Idea } from "@/types/idea";
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 
 export interface IdeaQuery {
   search?: string;
@@ -18,34 +15,45 @@ export const getIdeas = async (query: IdeaQuery) => {
   if (query.sort) params.set("sort", query.sort);
   if (query.page) params.set("page", query.page);
 
-  const res = await fetch(
-    `${API_URL}/api/ideas?${params.toString()}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const res = await fetch(`${API_URL}/api/ideas?${params.toString()}`, {
+    cache: "no-store",
+  });
 
   return res.json();
 };
 
+export const getStatistics = async () => {
+  const res = await fetch(`${API_URL}/api/statistics`, {
+    cache: "no-store",
+  });
 
+  return res.json();
+};
 
 export const getFeaturedIdeas = async () => {
   const res = await fetch(`${API_URL}/api/featured-ideas`, {
     cache: "no-store",
   });
 
-
   if (!res.ok) {
     throw new Error("Failed to fetch featured ideas");
   }
-
 
   return res.json();
 };
 
 export async function getIdea(id: string) {
   const res = await fetch(`${API_URL}/api/ideas/${id}`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch idea");
+  }
+
+  return res.json();
+}
+
+export async function getAllIdeas() {
+  const res = await fetch(`${API_URL}/api/all-ideas`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch idea");

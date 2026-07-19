@@ -229,7 +229,7 @@ export default function AboutPage() {
               </h2>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button variant="primary" size="lg" href="/auth/signup">
+              <Button variant="primary" size="lg" href="/add-idea">
                 Create a Spark
               </Button>
               <Button variant="secondary" size="lg" href="/ideas">
