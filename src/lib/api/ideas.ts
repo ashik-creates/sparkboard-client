@@ -1,3 +1,7 @@
+"use server";
+
+import { getToken } from "../getToken";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface IdeaQuery {
@@ -53,7 +57,13 @@ export async function getIdea(id: string) {
 }
 
 export async function getAllIdeas() {
-  const res = await fetch(`${API_URL}/api/all-ideas`);
+
+  const token = await getToken();
+  const res = await fetch(`${API_URL}/api/all-ideas`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch idea");
