@@ -31,7 +31,6 @@ export default async function IdeasPage({
 
   return (
     <>
-      <Navbar />
 
       <main className="mx-auto max-w-7xl px-6 py-20">
         <div className="mb-12 text-center">
@@ -79,7 +78,6 @@ export default async function IdeasPage({
         )}
       </main>
 
-      <Footer />
     </>
   );
 }
