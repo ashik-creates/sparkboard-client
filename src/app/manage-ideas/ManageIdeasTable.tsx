@@ -19,13 +19,22 @@ export default function ManageIdeasTable({ ideas = [] }: ManageIdeasTableProps) 
             aria-label="Manage ideas table"
             className="min-w-[900px] rounded-none bg-transparent shadow-none [&_th]:rounded-none [&_th]:bg-transparent [&_td]:rounded-none"
           >
-            <Table.Header className="rounded-none bg-transparent">
-              <Table.Column isRowHeader className="rounded-none bg-transparent">
+            <Table.Header className="rounded-none bg-transparent border-b border-border">
+              <Table.Column
+                isRowHeader
+                className="rounded-none bg-transparent border-b border-border"
+              >
                 Idea
               </Table.Column>
-              <Table.Column className="rounded-none bg-transparent">Category</Table.Column>
-              <Table.Column className="rounded-none bg-transparent">Created</Table.Column>
-              <Table.Column className="rounded-none bg-transparent">Actions</Table.Column>
+              <Table.Column className="rounded-none bg-transparent border-b border-border">
+                Category
+              </Table.Column>
+              <Table.Column className="rounded-none bg-transparent border-b border-border">
+                Created
+              </Table.Column>
+              <Table.Column className="rounded-none bg-transparent border-b border-border">
+                Actions
+              </Table.Column>
             </Table.Header>
 
             <Table.Body>
