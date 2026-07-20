@@ -186,28 +186,30 @@ export default function SignUpPage() {
           <div className="h-px flex-1 bg-border" />
         </div>
 
-        <Button
-          variant="secondary"
-          className="w-full"
-          onClick={handleGoogleSignup}
-        >
-          <div className="flex items-center justify-center gap-3">
-            <FcGoogle size={20} />
-            Continue with Google
-          </div>
-        </Button>
+        <div className="flex flex-col gap-3">
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={handleGoogleSignup}
+          >
+            <div className="flex items-center justify-center gap-3">
+              <FcGoogle size={20} />
+              Continue with Google
+            </div>
+          </Button>
 
-        <Button
-          variant="secondary"
-          className="w-full"
-          onClick={handleDemoLogin}
-          isLoading={isLoading}
-        >
-          <div className="flex items-center justify-center gap-3">
-            <HiOutlineUserCircle size={20} />
-            Demo Login
-          </div>
-        </Button>
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={handleDemoLogin}
+            isLoading={isLoading}
+          >
+            <div className="flex items-center justify-center gap-3">
+              <HiOutlineUserCircle size={20} />
+              Demo Login
+            </div>
+          </Button>
+        </div>
 
         <p className="mt-8 text-center text-sm text-secondary">
           Already have an account?{" "}
