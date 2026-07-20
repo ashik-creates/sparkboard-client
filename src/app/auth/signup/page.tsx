@@ -87,26 +87,16 @@ export default function SignUpPage() {
     const { data, error } = await authClient.signIn.email({
       email: "demo@sparkboard.com",
       password: "Demo12345",
-
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Logged in as Demo User");
-          router.push("/manage-ideas");
-        },
-
-        onError: (ctx) => {
-          setError(ctx.error.message as string);
-          toast.error(ctx.error.message as string);
-        },
-      },
     });
 
     if (data) {
-      // handled above
+      toast.success("Logged in as Demo User");
+      router.push("/");
     }
 
     if (error) {
       setError(error.message as string);
+      toast.error(error.message as string);
     }
 
     setIsLoading(false);
