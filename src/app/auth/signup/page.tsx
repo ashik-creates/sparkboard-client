@@ -91,7 +91,7 @@ export default function SignUpPage() {
 
     if (data) {
       toast.success("Logged in as Demo User");
-      router.push("/");
+      window.location.href = "/";
     }
 
     if (error) {
