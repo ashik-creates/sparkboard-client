@@ -6,6 +6,11 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/providers/auth-context";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+
+// ─── Shared text style — one size, used everywhere (desktop + mobile) ────────
+
+const NAV_TEXT = "font-sans text-xs uppercase tracking-widest";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface NavLinkData {
@@ -50,7 +55,7 @@ function NavLink({ href, label, exact = false }: NavLinkData) {
       href={href}
       aria-current={active ? "page" : undefined}
       className={`
-        relative font-sans text-[11px] uppercase tracking-widest whitespace-nowrap
+        relative ${NAV_TEXT} whitespace-nowrap
         transition-colors duration-200 pb-0.5
         focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent
         ${
@@ -148,12 +153,20 @@ export function Navbar() {
           ${scrolled ? "shadow-[0_1px_12px_0_rgba(17,17,17,0.06)]" : ""}
         `}
       >
-        <div className="h-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+        {/*
+          Flex + justify-between instead of grid-cols-[1fr_auto_1fr]:
+          a hidden center nav can't reliably collapse an "auto" grid track
+          to zero width across browsers, which is why the hamburger wasn't
+          landing flush at the far right on small screens. With flex, the
+          logo and the right-hand group are simply pushed to opposite ends
+          whenever the center nav is hidden — no track-sizing ambiguity.
+        */}
+        <div className="h-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 flex items-center justify-between gap-4">
           {/* ── Left: Logo ──────────────────────────────────────────────── */}
           <Link
-            href={"/"}
+            href="/"
             aria-label="SparkBoard — go to homepage"
-            className="font-heading text-lg font-bold uppercase tracking-tight text-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+            className="font-heading text-lg font-bold uppercase tracking-tight text-primary hover:text-accent transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent shrink-0"
           >
             SparkBoard.
           </Link>
@@ -161,7 +174,7 @@ export function Navbar() {
           {/* ── Center: Nav links (desktop only) ────────────────────────── */}
           <nav
             aria-label="Main navigation"
-            className="hidden lg:flex items-center gap-7"
+            className="hidden lg:flex flex-1 items-center justify-center gap-7"
           >
             {navLinks.map((link) => (
               <NavLink key={`${link.href}-${link.label}`} {...link} />
@@ -169,7 +182,7 @@ export function Navbar() {
           </nav>
 
           {/* ── Right: Actions ──────────────────────────────────────────── */}
-          <div className="flex items-center justify-end gap-4">
+          <div className="flex items-center justify-end gap-4 shrink-0">
             {/* Loading skeleton */}
             {loading && (
               <div className="hidden lg:block w-28 h-4 bg-border animate-pulse" />
@@ -179,9 +192,9 @@ export function Navbar() {
             {!loading && user && (
               <div className="hidden lg:flex items-center gap-5">
                 {/* "hi | Name" greeting */}
-                <span className="font-sans text-[11px] text-secondary tracking-widest select-none">
+                <span className={`${NAV_TEXT} text-secondary select-none`}>
                   hi&nbsp;
-                  <span className="font-sans text-[11px] uppercase tracking-widest text-primary border-l border-border pl-3 ml-0.5">
+                  <span className={`${NAV_TEXT} text-primary border-l border-border pl-3 ml-0.5`}>
                     {user.name.split(" ")[0]}
                   </span>
                 </span>
@@ -189,7 +202,7 @@ export function Navbar() {
                 {/* Sign out — subtle text button */}
                 <button
                   onClick={handleSignOut}
-                  className="font-sans text-[11px] uppercase tracking-widest text-secondary hover:text-primary border-b border-transparent hover:border-secondary pb-0.5 transition-all duration-200"
+                  className={`${NAV_TEXT} text-secondary hover:text-primary border-b border-transparent hover:border-secondary pb-0.5 transition-all duration-200`}
                 >
                   Sign Out
                 </button>
@@ -216,7 +229,7 @@ export function Navbar() {
               </div>
             )}
 
-            {/* Mobile hamburger */}
+            {/* Mobile hamburger — always the last item, flush right */}
             <button
               aria-label={
                 mobileOpen ? "Close navigation menu" : "Open navigation menu"
@@ -261,7 +274,7 @@ export function Navbar() {
                 aria-current={active ? "page" : undefined}
                 onClick={closeMobile}
                 className={`
-                  px-6 py-4 font-sans text-xs uppercase tracking-widest
+                  px-6 py-4 ${NAV_TEXT}
                   border-b border-border
                   transition-colors duration-150
                   ${
@@ -285,13 +298,11 @@ export function Navbar() {
             <>
               {/* User greeting strip */}
               <div className="flex items-center justify-between py-3 border-b border-border mb-2">
-                <div className="flex flex-col gap-0.5">
-                  <span className="font-heading text-sm font-bold uppercase text-primary tracking-tight">
+                <div className="flex flex-col gap-1">
+                  <span className={`font-heading ${NAV_TEXT} font-bold text-primary`}>
                     {user.name}
                   </span>
-                  <span className="font-sans text-[10px] text-secondary">
-                    {user.email}
-                  </span>
+                  <span className={`${NAV_TEXT} text-secondary`}>{user.email}</span>
                 </div>
               </div>
 
@@ -313,18 +324,18 @@ export function Navbar() {
             <>
               <Button
                 variant="primary"
-                size="lg"
+                size="sm"
                 className="w-full"
                 onClick={() => {
                   closeMobile();
                   router.push("/auth/signup");
                 }}
               >
-                Get Started Free
+                Get Started
               </Button>
               <Button
                 variant="secondary"
-                size="lg"
+                size="sm"
                 className="w-full"
                 onClick={() => {
                   closeMobile();

@@ -13,9 +13,9 @@ export default function ManageIdeasTable({
   ideas = [],
 }: ManageIdeasTableProps) {
   return (
-    <div className="overflow-hidden border border-border bg-surface p-5">
+    <div className="overflow-x-auto border border-border bg-surface p-5">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[900px] border-collapse text-left">
+        <table className="w-full min-w-[900px] border-collapse overflow-x-auto text-left">
           <thead>
             <tr className="border-b border-border">
               <th className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-secondary">
