@@ -55,7 +55,6 @@ export default function SignInPage() {
     setIsLoading(false);
   };
 
-
   const handleDemoLogin = async () => {
     setError("");
     setIsLoading(true);
@@ -63,41 +62,30 @@ export default function SignInPage() {
     const { data, error } = await authClient.signIn.email({
       email: "demo@sparkboard.com",
       password: "Demo12345",
-
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Logged in as Demo User");
-          router.push("/manage-ideas");
-        },
-
-        onError: (ctx) => {
-          setError(ctx.error.message as string);
-          toast.error(ctx.error.message as string);
-        },
-      },
     });
 
     if (data) {
-      // handled above
+      toast.success("Logged in as Demo User");
+      router.push("/");
     }
 
     if (error) {
       setError(error.message as string);
+      toast.error(error.message as string);
     }
 
     setIsLoading(false);
   };
 
-  const googleSignIn = async() => {
+  const googleSignIn = async () => {
     await authClient.signIn.social({
-    provider: "google",
-  });
+      provider: "google",
+    });
   };
 
   return (
     <section className="min-h-screen bg-background flex items-center justify-center px-5 py-16">
       <div className="w-full max-w-md border border-border bg-surface p-10 shadow-sm">
-
         {/* Logo */}
 
         <div className="flex flex-col items-center gap-3">
@@ -113,12 +101,12 @@ export default function SignInPage() {
           </h1>
 
           <p className="text-center text-sm text-secondary leading-relaxed">
-            Sign in to continue building, organizing and improving your startup ideas with AI.
+            Sign in to continue building, organizing and improving your startup
+            ideas with AI.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-10 flex flex-col gap-5">
-
           {error && (
             <div className="border border-red-300 bg-red-50 px-4 py-3">
               <p className="text-sm text-red-600">{error}</p>
@@ -145,11 +133,7 @@ export default function SignInPage() {
             required
           />
 
-          <Button
-            type="submit"
-            className="w-full"
-            isLoading={isLoading}
-          >
+          <Button type="submit" className="w-full" isLoading={isLoading}>
             <div className="flex items-center justify-center gap-2">
               <BiLogIn size={18} />
               {isLoading ? "Signing In..." : "Sign In"}
@@ -166,12 +150,7 @@ export default function SignInPage() {
         </div>
 
         <div className="flex flex-col gap-3">
-
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={googleSignIn}
-          >
+          <Button variant="secondary" className="w-full" onClick={googleSignIn}>
             <div className="flex items-center justify-center gap-3">
               <FcGoogle size={20} />
               Continue with Google
@@ -189,7 +168,6 @@ export default function SignInPage() {
               Demo Login
             </div>
           </Button>
-
         </div>
 
         <p className="mt-8 text-center text-sm text-secondary">
@@ -201,7 +179,6 @@ export default function SignInPage() {
             Create one
           </Link>
         </p>
-
       </div>
     </section>
   );
